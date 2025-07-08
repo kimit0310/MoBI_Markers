@@ -10,13 +10,13 @@ Functions:
 
 def test_import() -> None:
     """Test that the main function can be imported.
-    
+
     Verifies that the main function is accessible and callable from
     the mobi_marker package.
-    
+
     Returns:
         None
-        
+
     Raises:
         ImportError: If the main function cannot be imported.
         AssertionError: If the main function is not callable.

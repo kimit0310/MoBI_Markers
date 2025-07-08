@@ -19,6 +19,22 @@ runs:
     with:
       python-version-file: pyproject.toml
 
+  - name: Install LSL and display dependencies on Ubuntu
+    if: runner.os == 'Linux'
+    shell: bash
+    run: |
+      sudo apt-get update
+      sudo apt-get install -y build-essential cmake xvfb
+      git clone --depth=1 https://github.com/sccn/liblsl.git
+      cd liblsl
+      mkdir build && cd build
+      cmake ..
+      make -j
+      sudo make install
+      sudo ldconfig
+      # Set display for headless GUI testing
+      export DISPLAY=:99.0
+
   - name: Install dependencies
     if: steps.cache-venv.outputs.cache-hit != 'true'
     shell: bash

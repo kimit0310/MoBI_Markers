@@ -16,8 +16,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup venv
         uses: ./.github/actions/setup-venv
+      - name: Start Xvfb
+        run: |
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          export DISPLAY=:99.0
       - name: Run tests
         id: run-tests
+        env:
+          DISPLAY: :99.0
         run: >
           uv run pytest \
             --junitxml=pytest.xml \

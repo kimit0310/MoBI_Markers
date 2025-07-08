@@ -40,7 +40,7 @@ from PySide6.QtWidgets import (
 # Edit this list to change what appears in the dropdown menu
 AVAILABLE_MODALITIES = [
     "EEG",
-    "fNIRS", 
+    "fNIRS",
     "EMG",
     "EOG",
     "ECG",
@@ -48,7 +48,7 @@ AVAILABLE_MODALITIES = [
     "Eye Tracking",
     "Audio",
     "Video",
-    "Other"  # Keep "Other" as the last option
+    "Other",  # Keep "Other" as the last option
 ]
 
 
@@ -143,11 +143,11 @@ class LSLStreamThread(QThread):
 
 class MobiMarkerGUI(QMainWindow):
     """Main GUI window for the LSL marker application.
-    
+
     This class provides the main window interface for sending LSL markers.
-    It includes input fields, status display, control buttons for managing 
+    It includes input fields, status display, control buttons for managing
     the LSL stream, and quick marker buttons for common neuroscience events.
-    
+
     Attributes:
         lsl_thread: The LSL stream thread for handling marker transmission.
         marker_input: Text input field for entering custom marker text.
@@ -161,7 +161,7 @@ class MobiMarkerGUI(QMainWindow):
 
     def __init__(self) -> None:
         """Initialize the main window.
-        
+
         Sets up the GUI components and starts the LSL stream.
         """
         super().__init__()
@@ -171,7 +171,7 @@ class MobiMarkerGUI(QMainWindow):
 
     def init_ui(self) -> None:
         """Initialize the user interface.
-        
+
         Creates and configures all GUI components including input fields,
         buttons, and status display area.
         """
@@ -220,19 +220,19 @@ class MobiMarkerGUI(QMainWindow):
         layout.addWidget(quick_buttons_label)
 
         quick_buttons_layout = QGridLayout()
-        
+
         # Define quick marker buttons
         quick_markers = [
-            ("START", "#27ae60"),       # Green
-            ("END", "#e74c3c"),         # Red
-            ("PAUSE", "#f39c12"),       # Orange
-            ("RESUME", "#2ecc71"),      # Light green
-            ("ERROR", "#c0392b"),       # Dark red
-            ("NOTE", "#3498db"),        # Blue
-            ("START BREAK", "#8e44ad"), # Purple
-            ("END BREAK", "#e67e22"),   # Dark orange
+            ("START", "#27ae60"),  # Green
+            ("END", "#e74c3c"),  # Red
+            ("PAUSE", "#f39c12"),  # Orange
+            ("RESUME", "#2ecc71"),  # Light green
+            ("ERROR", "#c0392b"),  # Dark red
+            ("NOTE", "#3498db"),  # Blue
+            ("START BREAK", "#8e44ad"),  # Purple
+            ("END BREAK", "#e67e22"),  # Dark orange
         ]
-        
+
         # Create and add quick marker buttons
         row = 0
         col = 0
@@ -259,12 +259,12 @@ class MobiMarkerGUI(QMainWindow):
                 lambda checked, text=marker_text: self.send_quick_marker(text)
             )
             quick_buttons_layout.addWidget(button, row, col)
-            
+
             col += 1
             if col > 2:  # 3 columns per row
                 col = 0
                 row += 1
-        
+
         layout.addLayout(quick_buttons_layout)
 
         # Add separate modality section with better design
@@ -282,11 +282,11 @@ class MobiMarkerGUI(QMainWindow):
             "    padding: 12px;"
             "}"
         )
-        
+
         modality_layout = QHBoxLayout(modality_widget)
         modality_layout.setContentsMargins(12, 8, 12, 8)
         modality_layout.setSpacing(10)
-        
+
         # END button for modality
         self.end_modality_button = QPushButton("END")
         self.end_modality_button.setStyleSheet(
@@ -309,7 +309,7 @@ class MobiMarkerGUI(QMainWindow):
         )
         self.end_modality_button.clicked.connect(self.send_end_modality_marker)
         modality_layout.addWidget(self.end_modality_button)
-        
+
         # Modality dropdown
         self.modality_combo = QComboBox()
         self.modality_combo.addItems(AVAILABLE_MODALITIES)
@@ -336,7 +336,7 @@ class MobiMarkerGUI(QMainWindow):
         )
         self.modality_combo.currentTextChanged.connect(self.on_modality_changed)
         modality_layout.addWidget(self.modality_combo)
-        
+
         # Custom modality input (initially hidden)
         self.custom_modality_input = QLineEdit()
         self.custom_modality_input.setPlaceholderText("Enter custom modality...")
@@ -355,10 +355,10 @@ class MobiMarkerGUI(QMainWindow):
         )
         self.custom_modality_input.setVisible(False)
         modality_layout.addWidget(self.custom_modality_input)
-        
+
         # Add stretch to center the content
         modality_layout.addStretch()
-        
+
         layout.addWidget(modality_widget)
 
         # Status display
@@ -376,7 +376,7 @@ class MobiMarkerGUI(QMainWindow):
 
     def start_lsl_stream(self) -> None:
         """Start the LSL stream in a separate thread.
-        
+
         Creates and initializes the LSL stream thread, connecting its
         status update signal to the GUI's status display.
         """
@@ -386,7 +386,7 @@ class MobiMarkerGUI(QMainWindow):
 
     def send_marker(self) -> None:
         """Send the marker from the input field.
-        
+
         Retrieves the text from the marker input field and sends it
         through the LSL stream. Validates that the marker text is not
         empty and that the LSL stream is initialized.
@@ -414,10 +414,10 @@ class MobiMarkerGUI(QMainWindow):
 
     def send_quick_marker(self, marker_text: str) -> None:
         """Send a predefined quick marker.
-        
+
         Args:
             marker_text: The predefined marker text to send through the LSL stream.
-            
+
         Note:
             This method sends quick markers immediately without needing text input.
             It validates that the LSL stream is initialized before sending.
@@ -434,10 +434,10 @@ class MobiMarkerGUI(QMainWindow):
 
     def on_modality_changed(self, modality: str) -> None:
         """Handle modality dropdown selection change.
-        
+
         Args:
             modality: The selected modality from the dropdown.
-            
+
         Note:
             Shows/hides the custom modality input field based on selection.
         """
@@ -449,16 +449,16 @@ class MobiMarkerGUI(QMainWindow):
 
     def send_end_modality_marker(self) -> None:
         """Send an 'END [modality]' marker.
-        
+
         Constructs the marker text based on the selected modality from the
         dropdown or custom input field, then sends it through the LSL stream.
-        
+
         Note:
             Uses the dropdown selection unless "Other" is selected, in which
             case it uses the custom input field text.
         """
         modality = self.modality_combo.currentText()
-        
+
         if modality == "Other":
             custom_modality = self.custom_modality_input.text().strip()
             if not custom_modality:
@@ -473,7 +473,7 @@ class MobiMarkerGUI(QMainWindow):
             self.custom_modality_input.clear()
         else:
             marker_text = f"END {modality}"
-        
+
         if self.lsl_thread is not None:
             self.lsl_thread.send_marker(marker_text)
         else:
@@ -489,7 +489,7 @@ class MobiMarkerGUI(QMainWindow):
 
         Args:
             message: The status message to display in the status log.
-            
+
         Note:
             The status display automatically scrolls to show the newest message.
         """
@@ -500,9 +500,9 @@ class MobiMarkerGUI(QMainWindow):
 
     def closeEvent(self, event: QCloseEvent) -> None:
         """Handle window close event.
-        
+
         Properly shuts down the LSL stream thread before closing the window.
-        
+
         Args:
             event: The close event from Qt.
         """
@@ -514,13 +514,13 @@ class MobiMarkerGUI(QMainWindow):
 
 def main() -> None:
     """Main entry point for the GUI application.
-    
+
     Creates and runs the Qt application with the MoBI Marker GUI.
     Sets up application properties and handles the application lifecycle.
-    
+
     Returns:
         None
-        
+
     Raises:
         SystemExit: When the application is closed.
     """
