@@ -1,7 +1,7 @@
 """GUI module for the LSL marker application.
 
 This module provides the main GUI application for sending LSL (Lab Streaming
-Layer) markers. It includes a threaded LSL stream manager and a PySide6-based
+Layer) markers. It includes a threaded LSL stream manager and a PyQt6-based
 user interface.
 
 Classes:
@@ -20,9 +20,9 @@ from datetime import datetime
 from typing import Optional
 
 from pylsl import StreamInfo, StreamOutlet, local_clock
-from PySide6.QtCore import Qt, QThread, Signal
-from PySide6.QtGui import QCloseEvent
-from PySide6.QtWidgets import (
+from PyQt6.QtCore import Qt, QThread, pyqtSignal
+from PyQt6.QtGui import QCloseEvent
+from PyQt6.QtWidgets import (
     QApplication,
     QComboBox,
     QGridLayout,
@@ -64,7 +64,7 @@ class LSLStreamThread(QThread):
         stream_info: Information about the LSL stream.
     """
 
-    status_update = Signal(str)
+    status_update = pyqtSignal(str)
 
     def __init__(self) -> None:
         """Initialize the LSL stream thread.
@@ -496,9 +496,10 @@ class MobiMarkerGUI(QMainWindow):
         self.status_display.append(message)
         # Auto-scroll to bottom
         scrollbar = self.status_display.verticalScrollBar()
-        scrollbar.setValue(scrollbar.maximum())
+        if scrollbar is not None:
+            scrollbar.setValue(scrollbar.maximum())
 
-    def closeEvent(self, event: QCloseEvent) -> None:
+    def closeEvent(self, event: QCloseEvent | None) -> None:
         """Handle window close event.
 
         Properly shuts down the LSL stream thread before closing the window.
@@ -509,7 +510,8 @@ class MobiMarkerGUI(QMainWindow):
         if self.lsl_thread is not None:
             self.lsl_thread.quit()
             self.lsl_thread.wait()
-        event.accept()
+        if event is not None:
+            event.accept()
 
 
 def main() -> None:

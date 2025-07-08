@@ -11,7 +11,7 @@ A Python GUI application for sending LSL (Lab Streaming Layer) markers used in n
 
 ## Features
 
-- **Simple GUI Interface**: Clean and intuitive interface built with PySide6
+- **Simple GUI Interface**: Clean and intuitive interface built with PyQt6
 - **LSL Stream Integration**: Creates and manages an LSL marker stream
 - **Real-time Marker Sending**: Send custom string markers with a single click or Enter key
 - **Status Logging**: Real-time status updates and error reporting
@@ -130,7 +130,7 @@ mobi-marker/
 
 ## Dependencies
 
-- **PySide6**: GUI framework
+- **PyQt6**: GUI framework
 - **pylsl**: Lab Streaming Layer interface
 
 ## Contributing
@@ -154,7 +154,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
    - Check that no other application is using the same stream name
 
 2. **GUI Not Displaying**:
-   - Verify PySide6 installation
+   - Verify PyQt6 installation
    - Check system GUI framework compatibility
 
 3. **Import Errors**:
