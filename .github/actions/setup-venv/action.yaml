@@ -25,13 +25,9 @@ runs:
     run: |
       sudo apt-get update
       sudo apt-get install -y build-essential cmake xvfb \
-        libegl1-mesa-dev libgl1-mesa-glx libxkbcommon-x11-0 \
+        libgl1 libglu-dev mesa-utils xauth x11-apps \
         libxcb-icccm4 libxcb-image0 libxcb-keysyms1 \
-        libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 \
-        libxcb-xfixes0 libxcb-shape0 libglib2.0-0 \
-        libxcb-cursor0 libxcb-util1 libegl1-mesa \
-        libgles2-mesa-dev libglu1-mesa-dev \
-        qt6-base-dev qt6-tools-dev qt6-tools-dev-tools
+        libxcb-render-util0 libxcb-xinerama0
       git clone --depth=1 https://github.com/sccn/liblsl.git
       cd liblsl
       mkdir build && cd build
@@ -39,9 +35,6 @@ runs:
       make -j
       sudo make install
       sudo ldconfig
-      cd ../..
-      rm -rf liblsl
-      # Set display for headless GUI testing
       export DISPLAY=:99.0
 
   - name: Install dependencies

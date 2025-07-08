@@ -46,11 +46,6 @@ jobs:
       uses: ./.github/actions/setup-venv
       with:
         only-dev: true
-    - name: Clean up liblsl directory if exists
-      run: |
-        if [ -d "liblsl" ]; then
-          rm -rf liblsl
-        fi
     - name: Ruff format
       run: uv run ruff format --check
     - name: Ruff check
